@@ -1,19 +1,26 @@
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useLoader } from '@react-three/fiber'
 import './App.css'
-import { Box } from './Components/Box'
+import { Mesh } from './Components/Mesh'
 import { OrbitControls } from '@react-three/drei'
+import { RockBasicColor, RockNormal, RockRoughness } from './assets'
+import { TextureLoader } from 'three'
 
 function App() {
-
+  const [rockMap, rockNormal, rockRoughness] = useLoader(TextureLoader, [
+    RockBasicColor,
+    RockNormal,
+    RockRoughness,
+  ])
   return (
     <div className="App">
       <div className="min-h-screen">
-        <Canvas style={{ height: 500 }}>
-          <ambientLight />
-          <pointLight position={[10, 10, 10]} />
-          <Box position={[0, 0, 0]} scale={[2,2,2]} />
-          <OrbitControls />
-        </Canvas>
+        <Mesh 
+          component={
+          <>
+            <sphereGeometry args={[1, 50, 50]} />
+            <meshStandardMaterial normalMap={rockNormal} map={rockMap} roughnessMap={rockRoughness} />
+          </>
+        } position={[0, 0, 0]} scale={[2,2,2]} />
       </div>
     </div>
   )

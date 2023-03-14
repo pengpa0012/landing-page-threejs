@@ -4,11 +4,11 @@ import { Canvas, useFrame } from "@react-three/fiber"
 import { useRef, useState } from "react"
 
 export const Mesh = (props: any) => {
-  const mesh = useRef()
+  const mesh = useRef<any>()
 
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime();
-    mesh.current!.rotation.y = a;
+    mesh.current.rotation.y = a;
   });
 
   return (

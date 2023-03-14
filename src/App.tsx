@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setSize(window.scrollY * 0.005 + 1)
+      setSize(window.scrollY * 0.002 + 1)
     }
 
     window.addEventListener('wheel', handleScroll)
@@ -38,7 +38,7 @@ function App() {
   return (
     <div className="App">
       <div className="relative">
-        <Canvas style={{ height: "100vh", background: "#000" }}>
+        <Canvas style={{ height: "100vh", background: "#000", position: "fixed" }}>
           <Mesh
           onClick={() => setActive(!active)}
             component={
@@ -49,6 +49,7 @@ function App() {
           } position={[0, 0, 0]} scale={scale} />
         </Canvas>
       </div>
+      <div className="min-h-screen"></div>
       <div className="min-h-screen"></div>
     </div>
   )

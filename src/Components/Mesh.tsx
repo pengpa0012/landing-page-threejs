@@ -1,6 +1,6 @@
 import { animated } from "@react-spring/three"
 import { OrbitControls } from "@react-three/drei"
-import { Canvas, useFrame } from "@react-three/fiber"
+import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useRef, useState } from "react"
 
 export const Mesh = (props: any) => {
@@ -8,7 +8,7 @@ export const Mesh = (props: any) => {
 
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime();
-    mesh.current.rotation.y = a;
+    mesh.current.rotation.y = a / 2;
   });
 
   return (

@@ -2,30 +2,46 @@ import { Canvas, useLoader, useThree } from '@react-three/fiber'
 import './App.css'
 import { Mesh } from './Components/Mesh'
 import { CameraControls, Grid, OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
-import { Brick, Pavement, RockBasicColor, RockNormal, RockRoughness, WallStone } from './assets'
+import { Brick, BrickNormal, BrickRoughness, Pavement, PavementNormal, PavementRoughness, RockBasicColor, RockNormal, RockRoughness, WallStone, WallStoneNormal, WallStoneRoughness } from './assets'
 import { Texture, TextureLoader } from 'three'
 import { useEffect, useState } from 'react'
 function App() {
-  const [bricksTexture] = useLoader(TextureLoader, [Brick])
-  const [pavementTexture] = useLoader(TextureLoader, [Pavement])
-  const [wallStoneTexture] = useLoader(TextureLoader, [WallStone])
+  const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
+  const [pavementBase, pavementNormal, pavementRoughness] = useLoader(TextureLoader, [Pavement, PavementNormal, PavementRoughness])
+  const [wallStoneBase, wallStoneNormal, wallStoneRoughess] = useLoader(TextureLoader, [WallStone, WallStoneNormal, WallStoneRoughness])
   const [rockMap, rockNormal, rockRoughness] = useLoader(TextureLoader, [
     RockBasicColor,
     RockNormal,
     RockRoughness,
   ])
-  const [texture, setTexture] = useState<Texture>(bricksTexture)
+  const [texture, setTexture] = useState<any>({
+    base: bricksBase,
+    normnal: bricksNormal,
+    roughness: bricksRoughness
+  })
 
   const onChangeTexture = (texture: string) => {
     switch(texture) {
       case "brick":
-        setTexture(bricksTexture)
+        setTexture({
+          base: bricksBase,
+          normal: bricksNormal,
+          roughness: bricksRoughness
+        })
         break;
       case "pavement":
-        setTexture(pavementTexture)
+        setTexture({
+          base: pavementBase,
+          normal: pavementNormal,
+          roughness: pavementRoughness
+        })
         break;
       default:
-        setTexture(wallStoneTexture)
+        setTexture({
+          base: wallStoneBase,
+          normal: wallStoneNormal,
+          roughness: wallStoneRoughess
+        })
     }
   }
   console.log(texture)
@@ -50,8 +66,8 @@ function App() {
             opacity={0}
             component={
             <>
-              <octahedronGeometry args={[1, 1]} />
-              <meshStandardMaterial map={texture}/>
+              <sphereGeometry args={[1, 50, 50]}/>
+              <meshStandardMaterial map={texture.base} normalMap={texture.normal} roughnessMap={texture.roughness} />
             </>
           } position={[-1.5, 0, 2]} />
         </Canvas>

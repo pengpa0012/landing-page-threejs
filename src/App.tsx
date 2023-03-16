@@ -1,54 +1,65 @@
 import { Canvas, useLoader, useThree } from '@react-three/fiber'
 import './App.css'
 import { Mesh } from './Components/Mesh'
-import { CameraControls, Grid, OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
+import { CameraControls, Grid, OrbitControls, PerspectiveCamera, TransformControls, useTexture } from '@react-three/drei'
 import { Brick, BrickNormal, BrickRoughness, Pavement, PavementNormal, PavementRoughness, RockBasicColor, RockNormal, RockRoughness, WallStone, WallStoneNormal, WallStoneRoughness } from './assets'
-import { Texture, TextureLoader } from 'three'
+import { AmbientLight, Texture, TextureLoader } from 'three'
 import { useEffect, useState } from 'react'
+import { Plane } from './Components/Plane'
 function App() {
-  const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
-  const [pavementBase, pavementNormal, pavementRoughness] = useLoader(TextureLoader, [Pavement, PavementNormal, PavementRoughness])
-  const [wallStoneBase, wallStoneNormal, wallStoneRoughess] = useLoader(TextureLoader, [WallStone, WallStoneNormal, WallStoneRoughness])
-  const [rockMap, rockNormal, rockRoughness] = useLoader(TextureLoader, [
-    RockBasicColor,
-    RockNormal,
-    RockRoughness,
-  ])
-  const [texture, setTexture] = useState<any>({
-    base: bricksBase,
-    normnal: bricksNormal,
-    roughness: bricksRoughness
-  })
+  // const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
+  // const [pavementBase, pavementNormal, pavementRoughness] = useLoader(TextureLoader, [Pavement, PavementNormal, PavementRoughness])
+  // const [wallStoneBase, wallStoneNormal, wallStoneRoughess] = useLoader(TextureLoader, [WallStone, WallStoneNormal, WallStoneRoughness])
+  // const [rockMap, rockNormal, rockRoughness] = useLoader(TextureLoader, [
+  //   RockBasicColor,
+  //   RockNormal,
+  //   RockRoughness,
+  // ])
+  // const [texture, setTexture] = useState<any>({
+  //   base: bricksBase,
+  //   normnal: bricksNormal,
+  //   roughness: bricksRoughness
+  // })
 
-  const onChangeTexture = (texture: string) => {
-    switch(texture) {
-      case "brick":
-        setTexture({
-          base: bricksBase,
-          normal: bricksNormal,
-          roughness: bricksRoughness
-        })
-        break;
-      case "pavement":
-        setTexture({
-          base: pavementBase,
-          normal: pavementNormal,
-          roughness: pavementRoughness
-        })
-        break;
-      default:
-        setTexture({
-          base: wallStoneBase,
-          normal: wallStoneNormal,
-          roughness: wallStoneRoughess
-        })
-    }
-  }
-  console.log(texture)
+  // const onChangeTexture = (texture: string) => {
+  //   switch(texture) {
+  //     case "brick":
+  //       setTexture({
+  //         base: bricksBase,
+  //         normal: bricksNormal,
+  //         roughness: bricksRoughness
+  //       })
+  //       break;
+  //     case "pavement":
+  //       setTexture({
+  //         base: pavementBase,
+  //         normal: pavementNormal,
+  //         roughness: pavementRoughness
+  //       })
+  //       break;
+  //     default:
+  //       setTexture({
+  //         base: wallStoneBase,
+  //         normal: wallStoneNormal,
+  //         roughness: wallStoneRoughess
+  //       })
+  //   }
+  // }
 
   return (
     <div className="App">
-      <div className="relative">
+       <Canvas style={{ height: "100vh", background: "#000" }} shadows>
+          <Mesh
+            component={
+            <>
+              <sphereGeometry args={[1, 50, 50]}/>
+              <meshStandardMaterial/>
+            </>
+          } position={[0, 1, 0]}/>
+          <Plane rotation={[Math.PI / 2, 0, 0]} scale={[15, 15, 1]} />
+          <OrbitControls />
+        </Canvas>
+      {/* <div className="relative">
         <Canvas style={{ height: "100vh", background: "#000" }}>
           <Mesh
             component={
@@ -79,7 +90,7 @@ function App() {
             <option value="wall-stone">Wall Stone</option>
           </select>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

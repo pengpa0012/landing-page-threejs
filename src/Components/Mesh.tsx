@@ -1,10 +1,11 @@
 import { animated } from "@react-spring/three"
-import { OrbitControls, TransformControls } from "@react-three/drei"
+import { OrbitControls, PerspectiveCamera, TransformControls } from "@react-three/drei"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 
 export const Mesh = (props: any) => {
   const mesh = useRef<any>()
+  const cameraRef = useRef<any>()
   const lightRef = useRef<any>()
 
   const [keys, setKeys] = useState({
@@ -55,19 +56,22 @@ export const Mesh = (props: any) => {
   }, [])
 
   useFrame(({ clock }) => {
-    const delta = clock.getElapsedTime()
-
     if (keys.w) {
-      mesh.current.position.z -= 0.002 * delta
+      mesh.current.position.z -= 0.075
+      cameraRef.current.position.z -= 0.075
+      
     }
     if (keys.a) {
-      mesh.current.position.x -= 0.002 * delta
+      mesh.current.position.x -= 0.075
+      cameraRef.current.position.x -= 0.075
     }
     if (keys.s) {
-      mesh.current.position.z += 0.002 * delta
+      mesh.current.position.z += 0.075
+      cameraRef.current.position.z += 0.075
     }
     if (keys.d) {
-      mesh.current.position.x += 0.002 * delta
+      mesh.current.position.x += 0.075
+      cameraRef.current.position.x += 0.075
     }
   })
 
@@ -75,6 +79,13 @@ export const Mesh = (props: any) => {
     <>
       <ambientLight intensity={.1} />
       <pointLight position={[10, 10, 7]} ref={lightRef} castShadow />
+      <PerspectiveCamera
+        fov={75}
+        rotation={[0, 0, 0]}
+        makeDefault={true}
+        position={[0, 1, 3]}
+        ref={cameraRef}
+    />
       <animated.mesh
         castShadow
         {...props}

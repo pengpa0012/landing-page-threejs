@@ -52,12 +52,11 @@ function App() {
           <Mesh
             component={
             <>
-              <sphereGeometry args={[1, 50, 50]}/>
+              <sphereGeometry args={[.5, 50, 50]}/>
               <meshStandardMaterial/>
             </>
-          } position={[0, 1, 0]}/>
-          <Plane rotation={[Math.PI / 2, 0, 0]} scale={[15, 15, 1]} />
-          <OrbitControls />
+          } position={[0, .5, 0]}/>
+          <Plane rotation={[Math.PI / 2, 0, 0]} scale={[30, 30, 1]} />
         </Canvas>
       {/* <div className="relative">
         <Canvas style={{ height: "100vh", background: "#000" }}>

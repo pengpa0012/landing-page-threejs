@@ -50,12 +50,17 @@ function App() {
     <div className="App">
        <Canvas style={{ height: "100vh", background: "#000" }} shadows>
           <Mesh
+            player
             component={
             <>
               <sphereGeometry args={[.5, 50, 50]}/>
               <meshStandardMaterial/>
             </>
           } position={[0, .5, 0]}/>
+          <mesh position={[3, .5, 2]}>
+            <boxGeometry/>
+            <meshStandardMaterial/>
+          </mesh>
           <Plane rotation={[Math.PI / 2, 0, 0]} scale={[30, 30, 1]} />
         </Canvas>
       {/* <div className="relative">

@@ -57,10 +57,14 @@ function App() {
               <meshStandardMaterial/>
             </>
           } position={[0, .5, 0]}/>
-          <mesh position={[3, .5, 2]}>
-            <boxGeometry/>
-            <meshStandardMaterial/>
-          </mesh>
+          {
+            [1,2,3,4,5,6,7,8,9,10,11,12].map((mesh, i) => (
+              <mesh position={[Math.random() * 10, .5, Math.random() * 10]} key={i}>
+                <boxGeometry/>
+                <meshStandardMaterial/>
+              </mesh>
+            ))
+          }
           <Plane rotation={[Math.PI / 2, 0, 0]} scale={[30, 30, 1]} />
         </Canvas>
       {/* <div className="relative">

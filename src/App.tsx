@@ -6,6 +6,32 @@ import { Brick, BrickNormal, BrickRoughness, Pavement, PavementNormal, PavementR
 import { AmbientLight, Texture, TextureLoader } from 'three'
 import { useEffect, useState } from 'react'
 import { Plane } from './Components/Plane'
+import { Physics, usePlane, useBox } from '@react-three/cannon'
+
+function Box(props: any) {
+  const [ref] = useBox<any>(() => ({ mass: 1, position: [0, 1, 0], rotation: [0.4, 0.2, 0.5], ...props }))
+  const fixPosition = (box: number, boundary: number) => {
+    return (
+      boundary / 2 -
+      box / 2 -
+      (boundary - box) * (Math.round(Math.random() * 100) / 100)
+    )
+  }
+
+  return (
+    <>
+      {
+        [1,2,3,4,5,6,7,8,9,10].map((mesh, i) => (
+          <mesh receiveShadow castShadow key={i} ref={ref} position={[fixPosition(1, 30), .5, fixPosition(1, 30)]}>
+            <boxGeometry />
+            <meshLambertMaterial color="hotpink" />
+          </mesh>
+        ))
+      }
+    </>
+  )
+}
+
 function App() {
   // const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
   // const [pavementBase, pavementNormal, pavementRoughness] = useLoader(TextureLoader, [Pavement, PavementNormal, PavementRoughness])
@@ -46,26 +72,22 @@ function App() {
   //   }
   // }
 
+
   return (
     <div className="App">
        <Canvas style={{ height: "100vh", background: "#000" }} shadows>
-          <Mesh
-            player
-            component={
-            <>
-              <sphereGeometry args={[.5, 50, 50]}/>
-              <meshStandardMaterial/>
-            </>
-          } position={[0, .5, 0]}/>
-          {
-            [1,2,3,4,5,6,7,8,9,10,11,12].map((mesh, i) => (
-              <mesh position={[Math.random() * 10, .5, Math.random() * 10]} key={i}>
-                <boxGeometry/>
+          <Physics>
+            <Mesh
+              player
+              component={
+              <>
+                <sphereGeometry args={[.5, 50, 50]}/>
                 <meshStandardMaterial/>
-              </mesh>
-            ))
-          }
-          <Plane rotation={[Math.PI / 2, 0, 0]} scale={[30, 30, 1]} />
+              </>
+            } position={[0, .5, 0]}/>
+            <Box />
+            <Plane position={[0, 0, 0]} />
+          </Physics>
         </Canvas>
       {/* <div className="relative">
         <Canvas style={{ height: "100vh", background: "#000" }}>

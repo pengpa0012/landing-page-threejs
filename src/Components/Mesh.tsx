@@ -4,12 +4,13 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { handleKeyDown, handleKeyUp } from "../utilities"
 import { useForwardRaycast } from "../utilities/raycast"
+import { useSphere } from '@react-three/cannon'
 
 export const Mesh = (props: any) => {
+  const [ref, api] = useSphere(() => ({ position: [0,.5,0], type: 'Kinematic' }), useRef(null))
   const mesh = useRef<any>()
   const cameraRef = useRef<any>()
   const lightRef = useRef<any>()
-  const raycast = useForwardRaycast(mesh)
   const [spring, setSpring] = useSpring(() => ({ y: 0.5 }))
   const [isFalling, setIsFalling] = useState(false);
   const [keys, setKeys] = useState({
@@ -67,7 +68,7 @@ export const Mesh = (props: any) => {
         fov={75}
         rotation={[0, 0, 0]}
         makeDefault={true}
-        position={[0, 1, 3]}
+        position={[0, 2, 4]}
         ref={cameraRef}
       />
       <animated.mesh

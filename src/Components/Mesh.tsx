@@ -14,7 +14,15 @@ export const Mesh = (props: any) => {
   const ref = useRef<any>()
   const cameraRef = useRef<any>()
   const lightRef = useRef<any>()
-  const [spring, setSpring] = useSpring(() => ({ y: 0.5,  config: {duration: 250} }))
+  const [spring, setSpring] = useSpring(() => (
+    { 
+      y: 0.5,  
+      config: {
+        friction: 20,
+        tension: 210,
+      } 
+    }
+  ))
   const [isFalling, setIsFalling] = useState(false);
   const [keys, setKeys] = useState({
     w: false,

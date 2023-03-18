@@ -3,15 +3,18 @@ import { OrbitControls, PerspectiveCamera, TransformControls } from "@react-thre
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { handleKeyDown, handleKeyUp } from "../utilities"
-import { useForwardRaycast } from "../utilities/raycast"
 import { useSphere } from '@react-three/cannon'
 
 export const Mesh = (props: any) => {
-  const [ref, api] = useSphere(() => ({ position: [0,.5,0], type: 'Kinematic' }), useRef(null))
-  const mesh = useRef<any>()
+  // const [ref, api] = useSphere(() => ({
+  //   mass: 1,
+  //   position: [0, 0, 0]
+  // }));
+
+  const ref = useRef<any>()
   const cameraRef = useRef<any>()
   const lightRef = useRef<any>()
-  const [spring, setSpring] = useSpring(() => ({ y: 0.5 }))
+  const [spring, setSpring] = useSpring(() => ({ y: 0.5,  config: {duration: 250} }))
   const [isFalling, setIsFalling] = useState(false);
   const [keys, setKeys] = useState({
     w: false,
@@ -31,34 +34,33 @@ export const Mesh = (props: any) => {
     }
   }, [])
   useFrame(({ clock }) => {
-    if(mesh.current && cameraRef.current) {
+    if(ref.current && cameraRef.current) {
       if(keys.w) {
-        mesh.current.position.z -= 0.075
+        ref.current.position.z -= 0.075
         cameraRef.current.position.z -= 0.075
       }
       if(keys.a) {
-        mesh.current.position.x -= 0.075
+        ref.current.position.x -= 0.075
         cameraRef.current.position.x -= 0.075
       }
       if(keys.s) {
-        mesh.current.position.z += 0.075
+        ref.current.position.z += 0.075
         cameraRef.current.position.z += 0.075
       }
       if(keys.d) {
-        mesh.current.position.x += 0.075
+        ref.current.position.x += 0.075
         cameraRef.current.position.x += 0.075
       }
-      if(keys.space && !isFalling) {
-        setSpring({ y: 3 })
+      if(keys.space && !isFalling && ref.current.position.y === 0.5) {
+        setSpring({ y: 2 })
         setIsFalling(true)
       }
-      if(isFalling && spring.y.goal === 3) {
+      if(isFalling && ref.current.position.y === 2) {
         setSpring({ y: 0.5 })
         setIsFalling(false)
       }
     }
   })
-
 
   return (
     <>
@@ -74,7 +76,7 @@ export const Mesh = (props: any) => {
       <animated.mesh
         castShadow
         {...props}
-        ref={mesh}
+        ref={ref}
         position-y={spring.y}>
           {props.component}
         {/* <OrbitControls autoRotate enableRotate={false} enableZoom={false} /> */}

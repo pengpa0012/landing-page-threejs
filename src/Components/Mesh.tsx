@@ -18,6 +18,7 @@ export const Mesh = (props: any) => {
     { 
       y: 0.5,  
       config: {
+        duration: 200,
         friction: 20,
         tension: 210,
       } 
@@ -44,20 +45,20 @@ export const Mesh = (props: any) => {
   useFrame(({ clock }) => {
     if(ref.current && cameraRef.current) {
       if(keys.w) {
-        ref.current.position.z -= 0.075
-        cameraRef.current.position.z -= 0.075
+        ref.current.position.z -= 0.040
+        cameraRef.current.position.z -= 0.040
       }
       if(keys.a) {
-        ref.current.position.x -= 0.075
-        cameraRef.current.position.x -= 0.075
+        ref.current.position.x -= 0.040
+        cameraRef.current.position.x -= 0.040
       }
       if(keys.s) {
-        ref.current.position.z += 0.075
-        cameraRef.current.position.z += 0.075
+        ref.current.position.z += 0.040
+        cameraRef.current.position.z += 0.040
       }
       if(keys.d) {
-        ref.current.position.x += 0.075
-        cameraRef.current.position.x += 0.075
+        ref.current.position.x += 0.040
+        cameraRef.current.position.x += 0.040
       }
       if(keys.space && !isFalling && ref.current.position.y === 0.5) {
         setSpring({ y: 2 })
@@ -87,7 +88,7 @@ export const Mesh = (props: any) => {
         ref={ref}
         position-y={spring.y}>
           {props.component}
-        {/* <OrbitControls autoRotate enableRotate={false} enableZoom={false} /> */}
+          {/* <OrbitControls enableZoom={false} /> */}
       </animated.mesh>
     </>
   )

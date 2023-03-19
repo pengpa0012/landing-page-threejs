@@ -10,7 +10,6 @@ export const Mesh = (props: any) => {
   //   mass: 1,
   //   position: [0, 0, 0]
   // }));
-
   const ref = useRef<any>()
   const cameraRef = useRef<any>()
   const lightRef = useRef<any>()

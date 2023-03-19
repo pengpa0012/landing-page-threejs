@@ -1,7 +1,7 @@
-import { Canvas, useLoader, useThree } from '@react-three/fiber'
+import { Canvas, extend, useLoader, useThree } from '@react-three/fiber'
 import './App.css'
 import { Mesh } from './Components/Mesh'
-import { CameraControls, Grid, OrbitControls, PerspectiveCamera, TransformControls, useTexture } from '@react-three/drei'
+import { CameraControls, Grid, OrbitControls, PerspectiveCamera, TransformControls, useTexture, Stats, Text } from '@react-three/drei'
 import { Brick, BrickNormal, BrickRoughness, Pavement, PavementNormal, PavementRoughness, RockBasicColor, RockNormal, RockRoughness, WallStone, WallStoneNormal, WallStoneRoughness } from './assets'
 import { AmbientLight, Texture, TextureLoader } from 'three'
 import { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ import { Plane } from './Components/Plane'
 import { Physics, usePlane, useBox } from '@react-three/cannon'
 
 function Box(props: any) {
-  const [ref] = useBox<any>(() => ({ mass: 1, position: [0, 1, 0], rotation: [0.4, 0.2, 0.5], ...props }))
+  const [ref] = useBox<any>(() => ({ mass: 1, position: [0, 0, 0], rotation: [0.4, 0.2, 0.5], ...props }))
   const fixPosition = (box: number, boundary: number) => {
     return (
       boundary / 2 -
@@ -22,9 +22,15 @@ function Box(props: any) {
     <>
       {
         [1,2,3,4,5,6,7,8,9,10].map((mesh, i) => (
-          <mesh receiveShadow castShadow key={i} ref={ref} position={[fixPosition(1, 30), .5, fixPosition(1, 30)]} scale={[Math.floor(Math.random() * 3) + 1,Math.floor(Math.random() * 3) + 1, 1]}>
+          <mesh receiveShadow castShadow key={i} ref={ref} position={[fixPosition(1, 30), .5, fixPosition(1, 30)]} scale={[Math.floor(Math.random() * 3) + 1,Math.floor(Math.random() * 3) + 1,  1]}>
             <boxGeometry />
             <meshLambertMaterial color="hotpink" />
+            <Text
+              scale={[.5, .5, .5]}
+              position={[0,1,0]}
+            >
+              Box
+            </Text>
           </mesh>
         ))
       }
@@ -78,7 +84,6 @@ function App() {
        <Canvas style={{ height: "100vh", background: "#000" }} shadows>
           <Physics>
             <Mesh
-              player
               component={
               <>
                 <sphereGeometry args={[.5, 50, 50]}/>

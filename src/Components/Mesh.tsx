@@ -1,5 +1,5 @@
 import { animated, useSpring } from "@react-spring/three"
-import { OrbitControls, PerspectiveCamera, TransformControls } from "@react-three/drei"
+import { OrbitControls, PerspectiveCamera, Text, TransformControls } from "@react-three/drei"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { handleKeyDown, handleKeyUp } from "../utilities"
@@ -10,8 +10,10 @@ export const Mesh = (props: any) => {
   //   mass: 1,
   //   position: [0, 0, 0]
   // }));
+  const { viewport } = useThree()
   const ref = useRef<any>()
   const cameraRef = useRef<any>()
+  const textRef = useRef<any>()
   const lightRef = useRef<any>()
   const [spring, setSpring] = useSpring(() => (
     { 
@@ -30,7 +32,9 @@ export const Mesh = (props: any) => {
     s: false,
     d: false,
     space: false
-  })
+  }) 
+
+  console.log(viewport)
 
   useEffect(() => { 
     document.addEventListener("keydown", (e) => handleKeyDown(e, setKeys))
@@ -46,18 +50,22 @@ export const Mesh = (props: any) => {
       if(keys.w) {
         ref.current.position.z -= 0.040
         cameraRef.current.position.z -= 0.040
+        textRef.current.position.z -= 0.040
       }
       if(keys.a) {
         ref.current.position.x -= 0.040
         cameraRef.current.position.x -= 0.040
+        textRef.current.position.x -= 0.040
       }
       if(keys.s) {
         ref.current.position.z += 0.040
         cameraRef.current.position.z += 0.040
+        textRef.current.position.z += 0.040
       }
       if(keys.d) {
         ref.current.position.x += 0.040
         cameraRef.current.position.x += 0.040
+        textRef.current.position.x += 0.040
       }
       if(keys.space && !isFalling && ref.current.position.y === 0.5) {
         setSpring({ y: 2 })
@@ -80,13 +88,23 @@ export const Mesh = (props: any) => {
         makeDefault={true}
         position={[0, 2, 4]}
         ref={cameraRef}
+       
       />
+      <Text
+        scale={[.2, .2, .2]}
+        position={[0,4.5,0]}
+        ref={textRef}
+      >
+       use WASD to move
+       and SPACE to jump
+      </Text>
       <animated.mesh
         castShadow
         {...props}
         ref={ref}
         position-y={spring.y}>
           {props.component}
+          
           {/* <OrbitControls enableZoom={false} /> */}
       </animated.mesh>
     </>

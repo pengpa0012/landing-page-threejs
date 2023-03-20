@@ -4,7 +4,7 @@ import { Mesh } from './Components/Mesh'
 import { CameraControls, Grid, OrbitControls, PerspectiveCamera, TransformControls, useTexture, Stats, Text } from '@react-three/drei'
 import { Brick, BrickNormal, BrickRoughness, Pavement, PavementNormal, PavementRoughness, RockBasicColor, RockNormal, RockRoughness, WallStone, WallStoneNormal, WallStoneRoughness } from './assets'
 import { AmbientLight, Texture, TextureLoader } from 'three'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { Plane } from './Components/Plane'
 import { Physics, usePlane, useBox } from '@react-three/cannon'
 
@@ -18,6 +18,10 @@ function Box(props: any) {
     )
   }
 
+  // useLayoutEffect(() => {
+  //   ref.current.geometry.computeBoundingBox()
+  // }, [])
+
   return (
     <>
       {
@@ -26,10 +30,10 @@ function Box(props: any) {
             <boxGeometry />
             <meshLambertMaterial color={Math.random() * 0xffffff} />
             <Text
-              scale={[.5, .5, .5]}
+              scale={[.2, .2, .2]}
               position={[0,1,0]}
             >
-              Box
+              {(Math.random() * 0xffffff).toString().split(".")[0]}
             </Text>
           </mesh>
         ))

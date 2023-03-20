@@ -18,10 +18,6 @@ function Box(props: any) {
     )
   }
 
-  // useLayoutEffect(() => {
-  //   ref.current.geometry.computeBoundingBox()
-  // }, [])
-
   return (
     <>
       {
@@ -43,7 +39,7 @@ function Box(props: any) {
 }
 
 function App() {
-  // const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
+  const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
   // const [pavementBase, pavementNormal, pavementRoughness] = useLoader(TextureLoader, [Pavement, PavementNormal, PavementRoughness])
   // const [wallStoneBase, wallStoneNormal, wallStoneRoughess] = useLoader(TextureLoader, [WallStone, WallStoneNormal, WallStoneRoughness])
   // const [rockMap, rockNormal, rockRoughness] = useLoader(TextureLoader, [
@@ -51,11 +47,11 @@ function App() {
   //   RockNormal,
   //   RockRoughness,
   // ])
-  // const [texture, setTexture] = useState<any>({
-  //   base: bricksBase,
-  //   normnal: bricksNormal,
-  //   roughness: bricksRoughness
-  // })
+  const [texture, setTexture] = useState<any>({
+    base: bricksBase,
+    normnal: bricksNormal,
+    roughness: bricksRoughness
+  })
 
   // const onChangeTexture = (texture: string) => {
   //   switch(texture) {
@@ -91,7 +87,7 @@ function App() {
               component={
               <>
                 <sphereGeometry args={[.5, 50, 50]}/>
-                <meshStandardMaterial/>
+                <meshStandardMaterial map={texture.base} normalMap={texture.normal} roughnessMap={texture.roughness}/>
               </>
             } position={[0, .5, 0]}/>
             <Box />

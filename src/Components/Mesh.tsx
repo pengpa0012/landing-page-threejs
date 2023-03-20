@@ -34,8 +34,6 @@ export const Mesh = (props: any) => {
     space: false
   }) 
 
-  console.log(viewport)
-
   useEffect(() => { 
     document.addEventListener("keydown", (e) => handleKeyDown(e, setKeys))
     document.addEventListener("keyup", (e) => handleKeyUp(e, setKeys))
@@ -49,21 +47,25 @@ export const Mesh = (props: any) => {
     if(ref.current && cameraRef.current) {
       if(keys.w) {
         ref.current.position.z -= 0.040
+        ref.current.rotation.x -= 0.040
         cameraRef.current.position.z -= 0.040
         textRef.current.position.z -= 0.040
       }
       if(keys.a) {
         ref.current.position.x -= 0.040
+        ref.current.rotation.z += 0.040
         cameraRef.current.position.x -= 0.040
         textRef.current.position.x -= 0.040
       }
       if(keys.s) {
         ref.current.position.z += 0.040
+        ref.current.rotation.x += 0.040
         cameraRef.current.position.z += 0.040
         textRef.current.position.z += 0.040
       }
       if(keys.d) {
         ref.current.position.x += 0.040
+        ref.current.rotation.z -= 0.040
         cameraRef.current.position.x += 0.040
         textRef.current.position.x += 0.040
       }

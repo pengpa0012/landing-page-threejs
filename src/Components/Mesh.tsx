@@ -82,8 +82,8 @@ export const Mesh = (props: any) => {
 
   return (
     <>
-      <ambientLight intensity={.1} />
-      <pointLight position={[10, 10, 7]} ref={lightRef} castShadow />
+      <ambientLight intensity={.2} />
+      <pointLight position={[0, 10, 0]} ref={lightRef} castShadow />
       <PerspectiveCamera
         fov={75}
         rotation={[0, 0, 0]}

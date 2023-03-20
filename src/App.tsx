@@ -24,7 +24,7 @@ function Box(props: any) {
         [1,2,3,4,5,6,7,8,9,10].map((mesh, i) => (
           <mesh receiveShadow castShadow key={i} ref={ref} position={[fixPosition(1, 30), .5, fixPosition(1, 30)]} scale={[Math.floor(Math.random() * 3) + 1,Math.floor(Math.random() * 3) + 1,  1]}>
             <boxGeometry />
-            <meshLambertMaterial color="hotpink" />
+            <meshLambertMaterial color={Math.random() * 0xffffff} />
             <Text
               scale={[.5, .5, .5]}
               position={[0,1,0]}

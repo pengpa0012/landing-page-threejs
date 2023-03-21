@@ -13,6 +13,9 @@ import WallStoneRoughness from "./Wall_Stone_roughness.jpg"
 import Floor from "./Floor_BaseColor.jpg"
 import FloorNormal from "./Floor_Normal.jpg"
 import FloorRoughness from "./Floor_Roughness.jpg"
+import Building from "./Building_basecolor.jpg"
+import BuildingNormal from "./Building_normal.jpg"
+import BuildingRoughness from "./Building_roughness.jpg"
 
 export {
   RockBasicColor,
@@ -29,5 +32,8 @@ export {
   WallStoneRoughness,
   Floor,
   FloorNormal,
-  FloorRoughness
+  FloorRoughness,
+  Building,
+  BuildingNormal,
+  BuildingRoughness
 }

@@ -16,7 +16,11 @@ function App() {
        <Canvas style={{ height: "100vh", background: "#000" }} shadows>
           <Physics gravity={[0, -20, 0]}>
             <Mesh />
-            {/* <BoxIntance /> */}
+            {
+              [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map((box, i) => (
+                <BoxIntance key={i} />
+              ))
+            }
             <Plane position={[0, 0, 0]} />
           </Physics>
         </Canvas>

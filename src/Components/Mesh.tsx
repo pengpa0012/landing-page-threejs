@@ -4,13 +4,13 @@ import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { handleKeyDown, handleKeyUp } from "../utilities"
 import { useRaycastVehicle, useSphere } from '@react-three/cannon'
-import { TextureLoader } from "three"
+import { Quaternion, TextureLoader, Vector3 } from "three"
 import * as THREE from "three";
 import { Brick, BrickNormal, BrickRoughness } from "../assets"
 
 export const Mesh = (props: any) => {
   const [ref, api] = useSphere(() => ({
-    mass: 100,
+    mass: 500,
     position: [0, 0, 0]
   }),
   useRef(null))
@@ -55,7 +55,6 @@ export const Mesh = (props: any) => {
 
   const updateVelocity = () => {
     const speed = 2.5;
-
     direction.set(
       (keys.d ? 1 : 0) - (keys.a ? 1 : 0),
       0,
@@ -69,12 +68,25 @@ export const Mesh = (props: any) => {
     }
   };
 
-  useFrame(() => {
-    if(ref.current) {
-      updateVelocity();
-      api.velocity.set(velocity.current.x, velocity.current.y, velocity.current.z);
+  useFrame((state) => {
+    if(ref.current && cameraRef.current) {
+      updateVelocity()
+      api.velocity.set(velocity.current.x, velocity.current.y, velocity.current.z)
+      let position = new Vector3(0,0,0)
+      position.setFromMatrixPosition(ref.current.matrixWorld)
+
+      let wDir = new Vector3(0,0,-1)
+
+      let cameraPosition = position.clone().add(
+        wDir.clone().multiplyScalar(-1).add(
+          new Vector3(0,5,5)
+        )
+      )
+      
+      state.camera.position.copy(cameraPosition)
+      state.camera.lookAt(position)
     }
-  });
+  })
 
   return (
     <>
@@ -83,9 +95,10 @@ export const Mesh = (props: any) => {
       <PerspectiveCamera
         fov={75}
         makeDefault={true}
-        position={[0, 2, 4]}
+        rotation={[-1,0,0]}
+        position={[0, 10, 5]}
         ref={cameraRef}
-      />
+      ></PerspectiveCamera>
       <Text
         scale={[.2, .2, .2]}
         position={[0,4.5,0]}
@@ -100,7 +113,6 @@ export const Mesh = (props: any) => {
         ref={ref}>
           <sphereGeometry args={[1, 50, 50 * 2]}/>
           <meshStandardMaterial map={bricksBase} normalMap={bricksNormal} roughnessMap={bricksRoughness}/>
-
           {/* <OrbitControls enableZoom={false} /> */}
       </animated.mesh>
     </>

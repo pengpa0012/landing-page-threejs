@@ -9,20 +9,14 @@ import { BoxIntance } from './Components/BoxIntance'
 
 
 function App() {
-  const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
+ 
 
   return (
     <div className="App">
        <Canvas style={{ height: "100vh", background: "#000" }} shadows>
-          <Physics>
-            <Mesh
-              component={
-              <>
-                <sphereGeometry args={[.5, 50, 50]}/>
-                <meshStandardMaterial map={bricksBase} normalMap={bricksNormal} roughnessMap={bricksRoughness}/>
-              </>
-            } position={[0, .5, 0]}/>
-            <BoxIntance />
+          <Physics gravity={[0, -20, 0]}>
+            <Mesh />
+            {/* <BoxIntance /> */}
             <Plane position={[0, 0, 0]} />
           </Physics>
         </Canvas>

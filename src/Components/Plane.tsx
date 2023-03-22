@@ -6,7 +6,7 @@ import { DoubleSide, TextureLoader } from "three";
 import { Floor, FloorNormal, FloorRoughness } from '../assets';
 
 export const Plane = (props: any) => {
-  const [ref] = usePlane<any>(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }))
+  const [ref] = usePlane<any>(() => ({ type: "Static", rotation: [-Math.PI / 2, 0, 0], ...props }))
   const [floorBase, floorNormal, floorRoughness] = useLoader(TextureLoader, [Floor, FloorNormal, FloorRoughness])
   return (
     <mesh ref={ref} receiveShadow>

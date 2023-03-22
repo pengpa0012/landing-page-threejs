@@ -1,31 +1,37 @@
 import { animated, useSpring } from "@react-spring/three"
 import { OrbitControls, PerspectiveCamera, Text, TransformControls } from "@react-three/drei"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { handleKeyDown, handleKeyUp } from "../utilities"
-import { useSphere } from '@react-three/cannon'
+import { useRaycastVehicle, useSphere } from '@react-three/cannon'
+import { TextureLoader } from "three"
+import * as THREE from "three";
+import { Brick, BrickNormal, BrickRoughness } from "../assets"
 
 export const Mesh = (props: any) => {
-  // const [ref, api] = useSphere(() => ({
-  //   mass: 1,
-  //   position: [0, 0, 0]
-  // }));
+  const [ref, api] = useSphere(() => ({
+    mass: 100,
+    position: [0, 0, 0]
+  }),
+  useRef(null))
+
+  const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
   const { viewport } = useThree()
-  const ref = useRef<any>()
+  // const ref = useRef<any>()
   const cameraRef = useRef<any>()
   const textRef = useRef<any>()
   const lightRef = useRef<any>()
-  const [spring, setSpring] = useSpring(() => (
-    { 
-      y: 0.5,  
-      config: {
-        duration: 200,
-        friction: 20,
-        tension: 210,
-      } 
-    }
-  ))
-  const [isFalling, setIsFalling] = useState(false);
+  // const [spring, setSpring] = useSpring(() => (
+  //   { 
+  //     y: 0.5,  
+  //     config: {
+  //       duration: 200,
+  //       friction: 20,
+  //       tension: 210,
+  //     } 
+  //   }
+  // ))
+  // const [isFalling, setIsFalling] = useState(false);
   const [keys, setKeys] = useState({
     w: false,
     a: false,
@@ -43,42 +49,32 @@ export const Mesh = (props: any) => {
       document.removeEventListener("keyup", (e) => handleKeyUp(e, setKeys))
     }
   }, [])
-  useFrame(({ clock }) => {
-    if(ref.current && cameraRef.current) {
-      if(keys.w) {
-        ref.current.position.z -= 0.040
-        ref.current.rotation.x -= 0.040
-        cameraRef.current.position.z -= 0.040
-        textRef.current.position.z -= 0.040
-      }
-      if(keys.a) {
-        ref.current.position.x -= 0.040
-        ref.current.rotation.z += 0.040
-        cameraRef.current.position.x -= 0.040
-        textRef.current.position.x -= 0.040
-      }
-      if(keys.s) {
-        ref.current.position.z += 0.040
-        ref.current.rotation.x += 0.040
-        cameraRef.current.position.z += 0.040
-        textRef.current.position.z += 0.040
-      }
-      if(keys.d) {
-        ref.current.position.x += 0.040
-        ref.current.rotation.z -= 0.040
-        cameraRef.current.position.x += 0.040
-        textRef.current.position.x += 0.040
-      }
-      if(keys.space && !isFalling && ref.current.position.y === 0.5) {
-        setSpring({ y: 2 })
-        setIsFalling(true)
-      }
-      if(isFalling && ref.current.position.y === 2) {
-        setSpring({ y: 0.5 })
-        setIsFalling(false)
-      }
+
+  const velocity = useRef(new THREE.Vector3());
+  const direction = new THREE.Vector3();
+
+  const updateVelocity = () => {
+    const speed = 2.5;
+
+    direction.set(
+      (keys.d ? 1 : 0) - (keys.a ? 1 : 0),
+      0,
+      (keys.s ? 1 : 0) - (keys.w ? 1 : 0)
+    ).normalize();
+
+    if(ref.current){
+      velocity.current
+      .copy(direction)
+      .multiplyScalar(speed)
     }
-  })
+  };
+
+  useFrame(() => {
+    if(ref.current) {
+      updateVelocity();
+      api.velocity.set(velocity.current.x, velocity.current.y, velocity.current.z);
+    }
+  });
 
   return (
     <>
@@ -86,11 +82,9 @@ export const Mesh = (props: any) => {
       <pointLight position={[0, 10, 0]} ref={lightRef} castShadow />
       <PerspectiveCamera
         fov={75}
-        rotation={[0, 0, 0]}
         makeDefault={true}
         position={[0, 2, 4]}
         ref={cameraRef}
-       
       />
       <Text
         scale={[.2, .2, .2]}
@@ -103,10 +97,10 @@ export const Mesh = (props: any) => {
       <animated.mesh
         castShadow
         {...props}
-        ref={ref}
-        position-y={spring.y}>
-          {props.component}
-          
+        ref={ref}>
+          <sphereGeometry args={[1, 50, 50 * 2]}/>
+          <meshStandardMaterial map={bricksBase} normalMap={bricksNormal} roughnessMap={bricksRoughness}/>
+
           {/* <OrbitControls enableZoom={false} /> */}
       </animated.mesh>
     </>

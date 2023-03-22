@@ -6,7 +6,7 @@ import { TextureLoader } from 'three'
 import { Building, BuildingNormal, BuildingRoughness } from '../assets'
 
 export const BoxIntance = (props: any) => {
-  const [ref] = useBox<any>(() => ({ mass: 1, position: [0, 0, 0], rotation: [0.4, 0.2, 0.5], ...props }))
+  const [ref] = useBox<any>(() => ({ mass: 100, position: [0, 0, 0], rotation: [0.4, 0.2, 0.5], ...props }))
   const [buildingBase, buildingNormal, buildingRoughness] = useLoader(TextureLoader, [Building, BuildingNormal, BuildingRoughness])
   const fixPosition = (box: number, boundary: number) => {
     return (

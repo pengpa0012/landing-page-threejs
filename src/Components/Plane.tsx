@@ -6,11 +6,15 @@ import { DoubleSide, TextureLoader } from "three";
 import { Floor, FloorNormal, FloorRoughness } from '../assets';
 
 export const Plane = (props: any) => {
-  const [ref] = usePlane<any>(() => ({ type: "Static", rotation: [-Math.PI / 2, 0, 0], ...props }))
+  const [ref] = usePlane<any>(() => ({ 
+    type: "Static", 
+    rotation: [-Math.PI / 2, 0, 0], 
+    ...props 
+  }))
   const [floorBase, floorNormal, floorRoughness] = useLoader(TextureLoader, [Floor, FloorNormal, FloorRoughness])
   return (
     <mesh ref={ref} receiveShadow>
-      <planeGeometry args={[30, 30]} />
+      <planeBufferGeometry  args={[30, 30]} />
       <MeshReflectorMaterial color="red" map={floorBase} normalMap={floorNormal} roughnessMap={floorRoughness}  transparent={true}
           envMapIntensity={0.35}
           metalness={0.05}

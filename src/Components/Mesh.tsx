@@ -4,7 +4,7 @@ import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { handleKeyDown, handleKeyUp } from "../utilities"
 import { useRaycastVehicle, useSphere } from '@react-three/cannon'
-import { Quaternion, TextureLoader, Vector3 } from "three"
+import { Quaternion, SphereGeometry, TextureLoader, Vector3 } from "three"
 import * as THREE from "three";
 import { Brick, BrickNormal, BrickRoughness } from "../assets"
 
@@ -99,14 +99,14 @@ export const Mesh = (props: any) => {
         position={[0, 10, 5]}
         ref={cameraRef}
       ></PerspectiveCamera>
-      <Text
+      {/* <Text
         scale={[.2, .2, .2]}
         position={[0,4.5,0]}
         ref={textRef}
       >
        use WASD to move
        and SPACE to jump
-      </Text>
+      </Text> */}
       <animated.mesh
         castShadow
         {...props}

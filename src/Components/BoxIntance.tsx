@@ -6,7 +6,7 @@ import { TextureLoader } from 'three'
 import { Building, BuildingNormal, BuildingRoughness } from '../assets'
 
 export const BoxIntance = (props: any) => {
-  const [ref] = useBox<any>(() => ({ mass: 500, position: [0, 0, 0], rotation: [0.4, 0.2, 0.5], ...props }))
+  const [ref] = useBox<any>(() => ({ mass: 500, position: [0, 0, 0], rotation: [0, 0, 0], ...props }))
   const [buildingBase, buildingNormal, buildingRoughness] = useLoader(TextureLoader, [Building, BuildingNormal, BuildingRoughness])
   const fixPosition = (box: number, boundary: number) => {
     return (
@@ -17,8 +17,8 @@ export const BoxIntance = (props: any) => {
   }
 
   return (
-    <mesh receiveShadow castShadow ref={ref} position={[fixPosition(1, 30), .5, fixPosition(1, 30)]} scale={[Math.floor(Math.random() * 3) + 1,Math.floor(Math.random() * 3) + 1,  1]}>
-      <boxGeometry />
+    <mesh receiveShadow castShadow ref={ref} position={[fixPosition(1, 30), 0, fixPosition(1, 30)]} scale={[2,2,2]}>
+      <boxBufferGeometry />
       <meshStandardMaterial color={Math.random() * 0xffffff} map={buildingBase} normalMap={buildingNormal} roughnessMap={buildingRoughness} />
       <Text
         scale={[.2, .2, .2]}

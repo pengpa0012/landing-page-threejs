@@ -7,14 +7,15 @@ import { useRaycastVehicle, useSphere } from '@react-three/cannon'
 import { Quaternion, SphereGeometry, TextureLoader, Vector3 } from "three"
 import * as THREE from "three";
 import { Brick, BrickNormal, BrickRoughness } from "../assets"
+import { useForwardRaycast } from "../utilities/raycast"
 
 export const Mesh = (props: any) => {
   const [ref, api] = useSphere(() => ({
     mass: 500,
-    position: [0, 0, 0]
+    position: [0, 0, 0],
+    onCollide: () => console.log("mesh")
   }),
   useRef(null))
-
   const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
   const { viewport } = useThree()
   // const ref = useRef<any>()
@@ -85,6 +86,7 @@ export const Mesh = (props: any) => {
       
       state.camera.position.copy(cameraPosition)
       state.camera.lookAt(position)
+
     }
   })
 

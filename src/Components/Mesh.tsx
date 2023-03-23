@@ -10,10 +10,12 @@ import { Brick, BrickNormal, BrickRoughness } from "../assets"
 import { useForwardRaycast } from "../utilities/raycast"
 
 export const Mesh = (props: any) => {
+  let count = 0
+  const [counter, setCounter] = useState(count)
   const [ref, api] = useSphere(() => ({
     mass: 500,
     position: [0, 0, 0],
-    onCollide: () => console.log("mesh")
+    onCollide: () => setCounter(count++)
   }),
   useRef(null))
   const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
@@ -101,18 +103,18 @@ export const Mesh = (props: any) => {
         position={[0, 10, 5]}
         ref={cameraRef}
       ></PerspectiveCamera>
-      {/* <Text
-        scale={[.2, .2, .2]}
-        position={[0,4.5,0]}
-        ref={textRef}
-      >
-       use WASD to move
-       and SPACE to jump
-      </Text> */}
+      
       <animated.mesh
         castShadow
         {...props}
         ref={ref}>
+          <Text
+            scale={[.8, .8, .8]}
+            position={[0,1.5,0]}
+            ref={textRef}
+          >
+          {counter}
+          </Text>
           <sphereGeometry args={[1, 50, 50 * 2]}/>
           <meshStandardMaterial map={bricksBase} normalMap={bricksNormal} roughnessMap={bricksRoughness}/>
           {/* <OrbitControls enableZoom={false} /> */}

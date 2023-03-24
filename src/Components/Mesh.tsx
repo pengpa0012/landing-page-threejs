@@ -4,7 +4,7 @@ import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { handleKeyDown, handleKeyUp } from "../utilities"
 import { useRaycastVehicle, useSphere } from '@react-three/cannon'
-import { Quaternion, SphereGeometry, TextureLoader, Vector3 } from "three"
+import { Object3D, Quaternion, SphereGeometry, TextureLoader, Vector3 } from "three"
 import * as THREE from "three";
 import { Brick, BrickNormal, BrickRoughness } from "../assets"
 import { useForwardRaycast } from "../utilities/raycast"
@@ -23,6 +23,7 @@ export const Mesh = (props: any) => {
   // const ref = useRef<any>()
   const cameraRef = useRef<any>()
   const textRef = useRef<any>()
+  const textCameraRef = useRef<any>()
   const lightRef = useRef<any>()
   // const [spring, setSpring] = useSpring(() => (
   //   { 
@@ -71,12 +72,13 @@ export const Mesh = (props: any) => {
     }
   };
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if(ref.current && cameraRef.current) {
       updateVelocity()
       api.velocity.set(velocity.current.x, velocity.current.y, velocity.current.z)
       let position = new Vector3(0,0,0)
       position.setFromMatrixPosition(ref.current.matrixWorld)
+      
 
       let wDir = new Vector3(0,0,-1)
 
@@ -85,10 +87,17 @@ export const Mesh = (props: any) => {
           new Vector3(0,5,5)
         )
       )
-      
+
+      textRef.current.position.copy(position);
+      textRef.current.position.y += 1.5;
+
       state.camera.position.copy(cameraPosition)
       state.camera.lookAt(position)
 
+      textCameraRef.current.position.x = position.x
+      textCameraRef.current.position.y= 5
+      textCameraRef.current.position.z = position.z
+      textCameraRef.current.rotation.x = -.5
     }
   })
 
@@ -103,18 +112,24 @@ export const Mesh = (props: any) => {
         position={[0, 10, 5]}
         ref={cameraRef}
       ></PerspectiveCamera>
-      
+      <Text
+        scale={[.8, .8, .8]}
+        position={[0,2.5,0]}
+        ref={textRef}
+      >
+      {counter}
+      </Text>
+      <Text
+        scale={[.3, .3, .3]}
+        position={[0,2.5,0]}
+        ref={textCameraRef}
+      >
+        use WASD to move
+      </Text>
       <animated.mesh
         castShadow
         {...props}
         ref={ref}>
-          <Text
-            scale={[.8, .8, .8]}
-            position={[0,1.5,0]}
-            ref={textRef}
-          >
-          {counter}
-          </Text>
           <sphereGeometry args={[1, 50, 50 * 2]}/>
           <meshStandardMaterial map={bricksBase} normalMap={bricksNormal} roughnessMap={bricksRoughness}/>
           {/* <OrbitControls enableZoom={false} /> */}

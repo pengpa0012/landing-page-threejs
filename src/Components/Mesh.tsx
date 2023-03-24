@@ -6,7 +6,7 @@ import { handleKeyDown, handleKeyUp } from "../utilities"
 import { useRaycastVehicle, useSphere } from '@react-three/cannon'
 import { Object3D, Quaternion, SphereGeometry, TextureLoader, Vector3 } from "three"
 import * as THREE from "three";
-import { Brick, BrickNormal, BrickRoughness } from "../assets"
+import { Ice, IceNormal, IceRoughness } from "../assets"
 import { useForwardRaycast } from "../utilities/raycast"
 
 export const Mesh = (props: any) => {
@@ -18,7 +18,7 @@ export const Mesh = (props: any) => {
     onCollide: () => setCounter(count++)
   }),
   useRef(null))
-  const [bricksBase, bricksNormal, bricksRoughness] = useLoader(TextureLoader, [Brick, BrickNormal, BrickRoughness])
+  const [iceBase, iceNormal, iceRoughness] = useLoader(TextureLoader, [Ice, IceNormal, IceRoughness])
   const { viewport } = useThree()
   // const ref = useRef<any>()
   const cameraRef = useRef<any>()
@@ -91,13 +91,17 @@ export const Mesh = (props: any) => {
       textRef.current.position.copy(position);
       textRef.current.position.y += 1.5;
 
+      textCameraRef.current.position.copy(position);
+      textCameraRef.current.position.y += 4;
+      textCameraRef.current.rotation.x = -.5
+
       state.camera.position.copy(cameraPosition)
       state.camera.lookAt(position)
 
-      textCameraRef.current.position.x = position.x
-      textCameraRef.current.position.y= 5
-      textCameraRef.current.position.z = position.z
-      textCameraRef.current.rotation.x = -.5
+      // textCameraRef.current.position.x = position.x
+      // textCameraRef.current.position.y = 5
+      // textCameraRef.current.position.z = position.z
+      // textCameraRef.current.rotation.x = -.5
     }
   })
 
@@ -131,7 +135,7 @@ export const Mesh = (props: any) => {
         {...props}
         ref={ref}>
           <sphereGeometry args={[1, 50, 50 * 2]}/>
-          <meshStandardMaterial map={bricksBase} normalMap={bricksNormal} roughnessMap={bricksRoughness}/>
+          <meshStandardMaterial map={iceBase} normalMap={iceNormal} roughnessMap={iceRoughness}/>
           {/* <OrbitControls enableZoom={false} /> */}
       </animated.mesh>
     </>

@@ -15,7 +15,7 @@ export const Plane = (props: any) => {
   return (
     <mesh ref={ref} receiveShadow>
       <planeBufferGeometry  args={[30, 30]} />
-      <MeshReflectorMaterial color="red" map={floorBase} normalMap={floorNormal} roughnessMap={floorRoughness}  transparent={true}
+      <MeshReflectorMaterial map={floorBase} normalMap={floorNormal} roughnessMap={floorRoughness}  transparent={true}
           envMapIntensity={0.35}
           metalness={0.05}
           roughness={0.4}

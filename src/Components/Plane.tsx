@@ -14,7 +14,7 @@ export const Plane = (props: any) => {
   const [floorBase, floorNormal, floorRoughness] = useLoader(TextureLoader, [Floor, FloorNormal, FloorRoughness])
   return (
     <mesh ref={ref} receiveShadow>
-      <planeBufferGeometry  args={[30, 30]} />
+      <planeBufferGeometry  args={[1000, 1000]} />
       <MeshReflectorMaterial map={floorBase} normalMap={floorNormal} roughnessMap={floorRoughness}  transparent={true}
           envMapIntensity={0.35}
           metalness={0.05}

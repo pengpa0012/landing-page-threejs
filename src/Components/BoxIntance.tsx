@@ -25,7 +25,7 @@ export const BoxIntance = (props: any) => {
 
   return (
     <mesh receiveShadow castShadow ref={ref} position={[fixPosition(1, 30), 0, fixPosition(1, 30)]} scale={[2,2,2]}>
-      <boxBufferGeometry />
+      <boxGeometry />
       <meshStandardMaterial color={color} map={buildingBase} normalMap={buildingNormal} roughnessMap={buildingRoughness} />
       <Text
         scale={[.2, .2, .2]}

@@ -1,5 +1,5 @@
 import { animated, useSpring } from "@react-spring/three"
-import { OrbitControls, PerspectiveCamera, Text, TransformControls } from "@react-three/drei"
+import { OrbitControls, PerspectiveCamera, Plane, Sparkles, Stars, Text, TransformControls } from "@react-three/drei"
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { handleKeyDown, handleKeyUp } from "../utilities"
@@ -25,6 +25,7 @@ export const Mesh = (props: any) => {
   const textRef = useRef<any>()
   const textCameraRef = useRef<any>()
   const lightRef = useRef<any>()
+  const starRef = useRef<any>()
   // const [spring, setSpring] = useSpring(() => (
   //   { 
   //     y: 0.5,  
@@ -84,7 +85,7 @@ export const Mesh = (props: any) => {
 
       let cameraPosition = position.clone().add(
         wDir.clone().multiplyScalar(-1).add(
-          new Vector3(0,5,5)
+          new Vector3(0,2,7)
         )
       )
 
@@ -93,15 +94,15 @@ export const Mesh = (props: any) => {
 
       textCameraRef.current.position.copy(position);
       textCameraRef.current.position.y += 4;
-      textCameraRef.current.rotation.x = -.5
+
+      starRef.current.position.copy(position)
+
+      lightRef.current.position.copy(position)
+      lightRef.current.position.y += 10;
+
 
       state.camera.position.copy(cameraPosition)
       state.camera.lookAt(position)
-
-      // textCameraRef.current.position.x = position.x
-      // textCameraRef.current.position.y = 5
-      // textCameraRef.current.position.z = position.z
-      // textCameraRef.current.rotation.x = -.5
     }
   })
 
@@ -112,8 +113,6 @@ export const Mesh = (props: any) => {
       <PerspectiveCamera
         fov={75}
         makeDefault={true}
-        rotation={[-1,0,0]}
-        position={[0, 10, 5]}
         ref={cameraRef}
       ></PerspectiveCamera>
       <Text
@@ -138,6 +137,14 @@ export const Mesh = (props: any) => {
           <meshStandardMaterial map={iceBase} normalMap={iceNormal} roughnessMap={iceRoughness}/>
           {/* <OrbitControls enableZoom={false} /> */}
       </animated.mesh>
+      <Stars ref={starRef} radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
     </>
   )
 }
+
+// TODO
+// -Import character model
+// -Walk Animation
+// -Infinite Plane
+// -Import model for instannces (trees, car, building)
+//  -Use meshes if its too big to load

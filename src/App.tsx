@@ -10,15 +10,13 @@ import { Sky, Stars } from '@react-three/drei'
 
 
 function App() {
- 
-
   return (
     <div className="App">
        <Canvas style={{ height: "100vh", background: "#000" }} shadows>
           <Physics gravity={[0, -50, 0]}>
             <Mesh />
             {
-              [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map((box, i) => (
+              [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map((box, i) => (
                 <BoxIntance key={i} />
               ))
             }

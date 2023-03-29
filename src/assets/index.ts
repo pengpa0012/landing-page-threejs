@@ -22,6 +22,8 @@ import StoneRoughness from "./Stone_roughness.jpg"
 import Ice from "./Ice_basecolor.jpg"
 import IceNormal from "./Ice_normal.jpg"
 import IceRoughness from "./Ice_roughness.jpg"
+import HeightMap from "./Height_Map.png"
+import DisplacementMap from "./Displacement_Map.png"
 
 export {
   RockBasicColor,
@@ -47,5 +49,7 @@ export {
   StoneRoughness,
   Ice,
   IceNormal,
-  IceRoughness
+  IceRoughness,
+  HeightMap,
+  DisplacementMap
 }

@@ -7,12 +7,14 @@ import { Plane } from './Components/Plane'
 import { Physics } from '@react-three/cannon'
 import { BoxIntance } from './Components/BoxIntance'
 import { Sky, Stars } from '@react-three/drei'
+import { Controls, withControls } from 'react-three-gui'
 
 
 function App() {
   return (
     <div className="App">
-       <Canvas style={{ height: "100vh", background: "#000" }} shadows>
+      <Controls.Provider>
+       <Controls.Canvas style={{ height: "100vh", background: "#000" }} shadows>
           <Physics gravity={[0, -50, 0]}>
             <Mesh />
             {
@@ -22,7 +24,9 @@ function App() {
             }
             <Plane position={[0, 0, 0]} />
           </Physics>
-        </Canvas>
+        </Controls.Canvas>
+        <Controls />
+        </Controls.Provider>
     </div>
   )
 }

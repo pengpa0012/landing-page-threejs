@@ -8,6 +8,7 @@ import { Object3D, Quaternion, SphereGeometry, TextureLoader, Vector3 } from "th
 import * as THREE from "three";
 import { Ice, IceNormal, IceRoughness } from "../assets"
 import { useForwardRaycast } from "../utilities/raycast"
+import { useControl } from "react-three-gui"
 
 export const Mesh = (props: any) => {
   let count = 0
@@ -26,6 +27,12 @@ export const Mesh = (props: any) => {
   const textCameraRef = useRef<any>()
   const lightRef = useRef<any>()
   const starRef = useRef<any>()
+  const speedAdjust = useControl('Speed', { 
+    type: 'number',
+    value: 1,
+    min: 1,
+    max: 25
+  })
   // const [spring, setSpring] = useSpring(() => (
   //   { 
   //     y: 0.5,  
@@ -59,7 +66,6 @@ export const Mesh = (props: any) => {
   const direction = new THREE.Vector3();
 
   const updateVelocity = () => {
-    const speed = 2.5;
     direction.set(
       (keys.d ? 1 : 0) - (keys.a ? 1 : 0),
       0,
@@ -69,7 +75,7 @@ export const Mesh = (props: any) => {
     if(ref.current){
       velocity.current
       .copy(direction)
-      .multiplyScalar(speed)
+      .multiplyScalar(speedAdjust)
     }
   };
 
@@ -143,8 +149,8 @@ export const Mesh = (props: any) => {
 }
 
 // TODO
-// -Import character model
-// -Walk Animation
-// -Infinite Plane
-// -Import model for instannces (trees, car, building)
-//  -Use meshes if its too big to load
+// -Import texture for instannces (trees, car, building)
+// -Randomize texture (50 instances)
+//    -Generate instance
+// -Floor repeat texture
+// -Add config for speed
